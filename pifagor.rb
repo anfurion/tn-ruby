@@ -4,14 +4,12 @@ class Pifagor
     return 'isosceles' if isosceles?(a, b, c)
     return 'right' if right_triangle?(a, b, c)
 
-    puts 'none'
+    'none'
   end
 
   def right_triangle?(a, b, c)
-    hypotenuse = [a, b, c].max
-    sides = [a, b, c] - [hypotenuse]
-    side1 = sides.first
-    side2 = sides.last
+    side1, side2, hypotenuse = [a, b, c].sort
+
     (side1**2 + side2**2) == hypotenuse**2
   end
 
