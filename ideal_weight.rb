@@ -6,3 +6,11 @@ def ideal_weight(name, height)
     "#{name}, already ideal"
   end
 end
+
+puts 'Введите имя'
+name = gets.to_s
+
+puts 'Введите рост'
+height = gets.to_f
+
+puts ideal_weight(name, height)
