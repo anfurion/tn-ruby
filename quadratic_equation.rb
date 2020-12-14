@@ -29,3 +29,15 @@ class QuadraticEquation
     (-b - Math.sqrt(d)) / (2 * a)
   end
 end
+
+puts 'Введите значение a'
+a = gets.to_f
+
+puts 'Введите значение b'
+b = gets.to_f
+
+puts 'Введите значение c'
+c = gets.to_f
+
+
+puts QuadraticEquation.new.solve(a, b, c)
