@@ -21,3 +21,14 @@ class Pifagor
     a == b || a == c || c == b
   end
 end
+
+puts 'Введите первую сторону треугольника'
+a = gets.to_f
+
+puts 'Введите вторую сторону треугольника'
+b = gets.to_f
+
+puts 'Введите третью сторону треугольника'
+c = gets.to_f
+
+puts Pifagor.new.check(a, b, c)
