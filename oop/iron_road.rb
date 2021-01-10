@@ -20,12 +20,25 @@ pp "Маршрут и поезда созданы"
 pp route
 pp train
 train.take_route(route)
-pp "Поезд принял маршрут"
+train.hook_wagon
+train.hook_wagon
+train.hook_wagon
 pp train
 pp train.route.station(0)
 pp train.route.station(1)
 train.ride_to_the_next_station
-pp "Поезд ушел на следующую станцию"
-pp train
+train.unhook_wagon
+train.unhook_wagon
+train.unhook_wagon
 pp train.route.station(0)
 pp train.route.station(1)
+train.ride_to_the_next_station
+sleep(2)
+train.ride_to_the_next_station
+sleep(2)
+train.ride_to_the_next_station
+sleep(2)
+train.ride_to_the_next_station
+sleep(2)
+train.ride_to_the_next_station
+

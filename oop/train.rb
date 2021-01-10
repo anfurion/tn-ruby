@@ -1,5 +1,5 @@
 class Train
-  attr_reader :state, :speed
+  attr_reader :state, :speed, :number
   attr_accessor :wagons_count, :route, :route_progress
 
   def initialize(number, type)
@@ -12,8 +12,12 @@ class Train
   end
 
   def ride_to_the_next_station
-    leave_current_station
-    arrival_on_current_station
+    if current_station == route.end_station
+      pp 'Поезд уже на конечной станции'
+    else
+      leave_current_station
+      arrival_on_current_station
+    end
   end
 
   def arrival_on_current_station
@@ -39,23 +43,27 @@ class Train
     @route_progress = 0
     @route = route
     arrival_on_current_station
+    pp 'Поезд принял маршрут'
   end
 
   def stop
     @speed = 0
     @state = :stay
+    pp 'Поезд остановился 10 мин'
   end
 
   def go
     @speed = 60
     @state = :rides
     self.route_progress += 1
+    pp 'Поезд тронулся'
   end
 
   def hook_wagon
     case state
     when :stay
       self.wagons_count += 1
+      pp "Вагон прицеплен тепер их #{wagons_count}"
     when :rides
       puts 'Cannot hook a wagon, when train rides'
     end
@@ -65,6 +73,7 @@ class Train
     case state
     when :stay
       self.wagons_count -= 1
+      pp "Вагон отцеплен тепер их #{wagons_count}"
     when :rides
       puts 'Cannot unhook a wagon, when train rides'
     end
