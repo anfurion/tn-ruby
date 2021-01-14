@@ -6,6 +6,16 @@ class Station
     @trains = []
   end
 
+  def recounting_trains
+    {
+      cargo: select_trains(:cargo).size,
+      passenger: select_trains(:passenger).size,
+    }
+  end
+  def select_trains(type)
+    trains.select { |train| train.type == type } 
+  end
+
   def take_train(train)
     @trains << train
     pp "Поезд №#{train.number} Прибыл на станцию #{name}"

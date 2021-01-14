@@ -14,10 +14,7 @@ class Route
       [end_station]
   end
 
-  def station(num)
-    stations[num]
-  end
-  def add_intermedite_station(station_name)
-    @intermediate_stations << station_name
+  def add_intermedite_station(station)
+    @intermediate_stations << station
   end
 end
