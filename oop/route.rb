@@ -8,6 +8,7 @@ class Route
     @intermediate_stations = []
   end
 
+  # Все методы маршрута не являются приватными потому что я их вызываю в irb.
   def stations
     [starting_station] +
       intermediate_stations +
