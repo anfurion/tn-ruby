@@ -6,14 +6,23 @@ class Station
     @trains = []
   end
 
+  def info
+    @trains
+      .map(&:info)
+      .join "\n"
+  end
+
+  # Все методы станции публичный так как я их вызываю в irb.
+
   def recounting_trains
     {
       cargo: select_trains(:cargo).size,
-      passenger: select_trains(:passenger).size,
+      passenger: select_trains(:passenger).size
     }
   end
+
   def select_trains(type)
-    trains.select { |train| train.type == type } 
+    trains.select { |train| train.type == type }
   end
 
   def take_train(train)

@@ -10,6 +10,17 @@ class Train
     @wagons = []
   end
 
+  def info
+    type_info = case type
+                when :passenger 
+                  "Пассажирский"
+                when :cargo 
+                  "Грузовой"
+                end
+
+     "#{type_info} поезд №#{number} #{route.title}"
+  end
+
   def wagons_count
     wagons.size
   end
@@ -25,11 +36,11 @@ class Train
   end
 
   # Это публичный метод, потому что это интерфейс поезда.
-  def ride_to_the_next_station
+  def ride(direction)
     if current_station == route.end_station
       pp 'Поезд уже на конечной станции'
     else
-      leave_current_station
+      leave_current_station(direction)
       arrival_on_current_station
     end
   end
@@ -75,9 +86,9 @@ class Train
 
   # Приватный, так как он не вызывается из клиентского кода,
   # но вызывается только из публичного метода ride_to_the_next_station
-  def leave_current_station
+  def leave_current_station(direction)
     current_station.train_left(self)
-    go
+    go(direction)
   end
 
   # Приватный, так как он не вызывается из клиентского кода
@@ -99,10 +110,16 @@ class Train
   end
 
   # Этот метод нужен для того, чтобы поезд тронулся, и не может быть вызван из вне.
-  def go
+  def go(direction = :forward)
     @speed = 60
     @state = :rides
-    self.route_progress += 1
+
+    case direction
+    when :forward
+      self.route_progress += 1
+    when :backward
+      self.route_progress -= 1
+    end
     pp 'Поезд тронулся'
   end
 end

@@ -8,6 +8,17 @@ class Route
     @intermediate_stations = []
   end
 
+  def title
+    "#{starting_station.name} - #{end_station.name}"
+  end
+
+  def info
+    [
+      title,
+      stations.map(&:name)
+    ].join ", "
+  end
+
   # Все методы маршрута не являются приватными потому что я их вызываю в irb.
   def stations
     [starting_station] +
@@ -17,5 +28,9 @@ class Route
 
   def add_intermedite_station(station)
     @intermediate_stations << station
+  end
+
+  def delete_intermedite_station
+    @intermediate_stations.pop
   end
 end
