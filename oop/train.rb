@@ -1,4 +1,6 @@
+require_relative './producer'
 class Train
+  include Producer
   attr_reader :state, :speed, :number
   attr_accessor :wagons, :route, :route_progress
 
@@ -8,17 +10,24 @@ class Train
     @state = :stay
     @route_progress = 0
     @wagons = []
+    @@alltrain[number] = self
+  end
+
+  @@alltrain = {}
+
+  def self.find(number)
+    @@alltrain[number]
   end
 
   def info
     type_info = case type
-                when :passenger 
-                  "Пассажирский"
-                when :cargo 
-                  "Грузовой"
+                when :passenger
+                  'Пассажирский'
+                when :cargo
+                  'Грузовой'
                 end
 
-     "#{type_info} поезд №#{number} #{route.title}"
+    "#{type_info} поезд №#{number} #{route.title}"
   end
 
   def wagons_count
