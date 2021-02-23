@@ -1,4 +1,7 @@
+require_relative './instance_counter'
+
 class Route
+  include InstanceCounter
   attr_accessor :intermediate_stations
   attr_reader :starting_station, :end_station
 
@@ -6,6 +9,7 @@ class Route
     @starting_station = starting_station
     @end_station = end_station
     @intermediate_stations = []
+    register_instance
   end
 
   def title
@@ -16,7 +20,7 @@ class Route
     [
       title,
       stations.map(&:name)
-    ].join ", "
+    ].join ', '
   end
 
   # Все методы маршрута не являются приватными потому что я их вызываю в irb.

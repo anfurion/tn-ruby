@@ -10,6 +10,7 @@ class Train
     @state = :stay
     @route_progress = 0
     @wagons = []
+    register_instance
     @@alltrain[number] = self
   end
 
