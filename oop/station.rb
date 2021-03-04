@@ -8,6 +8,7 @@ class Station
 
   def initialize(name)
     @name = name
+    validate!
     @trains = []
     @@all << self
     register_instance
@@ -15,6 +16,18 @@ class Station
 
   def self.all
     @@all
+  end
+
+  def validate!
+    raise "name must be a String, not #{name.class}" unless name.is_a?(String)
+    raise 'name must have at least 3 letters' if name.length < 3
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
   end
 
   def info

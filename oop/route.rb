@@ -8,8 +8,16 @@ class Route
   def initialize(starting_station, end_station)
     @starting_station = starting_station
     @end_station = end_station
+    validate!
     @intermediate_stations = []
     register_instance
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
   end
 
   def title
@@ -36,5 +44,10 @@ class Route
 
   def delete_intermedite_station
     @intermediate_stations.pop
+  end
+
+  def validate!
+    raise "starting_station must be a Station, not #{starting_station.class}" unless starting_station.is_a?(Station)
+    raise "end_station must be a Station, not #{end_station.class}" unless end_station.is_a?(Station)
   end
 end

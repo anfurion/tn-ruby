@@ -1,11 +1,15 @@
 require_relative './producer'
 class Train
+NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
   include Producer
   attr_reader :state, :speed, :number
   attr_accessor :wagons, :route, :route_progress
 
+  @@alltrain = {}
+
   def initialize(number)
     @number = number
+    validate!
     @speed = 0
     @state = :stay
     @route_progress = 0
@@ -14,7 +18,17 @@ class Train
     @@alltrain[number] = self
   end
 
-  @@alltrain = {}
+  def validate!
+    raise "number must be a String, not #{number.class}" unless number.is_a?(String)
+    raise 'NUMBER FORMAT must be in correct format' if number !~ NUMBER_FORMAT
+  end
+
+  def valid?
+    validate!
+    true
+  rescue StandardError
+    false
+  end
 
   def self.find(number)
     @@alltrain[number]
