@@ -44,6 +44,9 @@ class Main
     puts 'Введите имя станции'
     name = gets.chomp
     @stations[name.to_sym] = Station.new(name)
+  rescue StandardError => e
+    puts e.message
+  ensure
     puts @stations
     menu
   end
@@ -57,7 +60,7 @@ class Main
     type = gets.chomp.to_i
 
     puts 'Введите номер поезда'
-    number = gets.chomp.to_i
+    number = gets.chomp.to_s
 
     case type
     when 1
@@ -65,6 +68,9 @@ class Main
     when 2
       @trains[number] = CargoTrain.new(number)
     end
+  rescue StandardError => e
+    puts e.message
+  ensure
     puts @trains
 
     menu
@@ -101,6 +107,9 @@ class Main
     end_station = @stations[end_name]
 
     route = Route.new(starting_station, end_station)
+  rescue StandardError => e
+    puts e.message
+  ensure
     @routes << route
     puts 'Известные маршруты'
     puts show_routes
