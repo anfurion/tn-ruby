@@ -18,11 +18,6 @@ class Station
     @@all
   end
 
-  def validate!
-    raise "name must be a String, not #{name.class}" unless name.is_a?(String)
-    raise 'name must have at least 3 letters' if name.length < 3
-  end
-
   def valid?
     validate!
     true
@@ -57,5 +52,12 @@ class Station
   def train_left(train)
     @trains.delete(train)
     pp "Поезд №#{train.number} ушел со станции #{name}"
+  end
+
+  private
+
+  def validate!
+    raise "name must be a String, not #{name.class}" unless name.is_a?(String)
+    raise 'name must have at least 3 letters' if name.length < 3
   end
 end

@@ -18,10 +18,6 @@ NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
     @@alltrain[number] = self
   end
 
-  def validate!
-    raise "number must be a String, not #{number.class}" unless number.is_a?(String)
-    raise 'NUMBER FORMAT must be in correct format' if number !~ NUMBER_FORMAT
-  end
 
   def valid?
     validate!
@@ -100,6 +96,11 @@ NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
   end
 
   private
+
+  def validate!
+    raise "number must be a String, not #{number.class}" unless number.is_a?(String)
+    raise 'NUMBER FORMAT must be in correct format' if number !~ NUMBER_FORMAT
+  end
 
   # Приватный, так как он не вызывается из клиентского кода,
   # но вызывается только из публичного метода ride_to_the_next_station
