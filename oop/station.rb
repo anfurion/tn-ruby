@@ -14,6 +14,12 @@ class Station
     register_instance
   end
 
+  def each_train
+    trains.each do |train|
+      yield(train)
+    end
+  end
+
   def self.all
     @@all
   end

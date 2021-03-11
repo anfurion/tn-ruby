@@ -152,7 +152,7 @@ class Main
     puts 'Назначаем маршрут для поезда'
     puts 'Выберите поезд'
     puts @trains
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp.to_s
     train = @trains[train_number]
 
     puts 'Выберем маршрут из существующих'
@@ -167,14 +167,18 @@ class Main
     puts 'Добавляем вагон к поезду'
     puts 'Выберите поезд'
     puts @trains
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp.to_s
     train = @trains[train_number]
 
     wagon = case train.type
             when :passenger
-              PassengerWagon.new
+              puts "Введите количество пассажирских мест в вагоне"
+              seats_count = gets.chomp.to_i
+              PassengerWagon.new(seats_count)
             when :cargo
-              CargoWagon.new
+              puts "Введите объем в вагоне"
+              capacity = gets.chomp.to_i
+              CargoWagon.new(capacity)
 
             end
     train.hook_wagon(wagon)
@@ -185,7 +189,7 @@ class Main
     puts 'Отцепляем вагон от поезда'
     puts 'Выберите поезд'
     puts @trains
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp.to_s
     train = @trains[train_number]
 
     train.unhook_wagon
@@ -196,7 +200,7 @@ class Main
     puts 'Двигаем поезд'
     puts 'Выберите поезд'
     puts @trains
-    train_number = gets.chomp.to_i
+    train_number = gets.chomp.to_s
     train = @trains[train_number]
 
     puts <<-DIRECTION_MENU

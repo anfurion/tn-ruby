@@ -1,6 +1,6 @@
 require_relative './producer'
 class Train
-NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
+  NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
   include Producer
   attr_reader :state, :speed, :number
   attr_accessor :wagons, :route, :route_progress
@@ -18,6 +18,11 @@ NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
     @@alltrain[number] = self
   end
 
+  def each_wagon
+    wagons.each do |wagon|
+      yield(wagon)
+    end
+  end
 
   def valid?
     validate!
