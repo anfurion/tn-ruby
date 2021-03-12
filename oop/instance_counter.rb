@@ -6,12 +6,10 @@ module InstanceCounter
   end
 
   module ClassMethods
+    attr_reader :instances
+
     def init_counter
       @instances = 0
-    end
-
-    def instances
-      @instances
     end
 
     def instances_increment!
