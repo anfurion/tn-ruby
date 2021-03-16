@@ -1,27 +1,20 @@
+# frozen_string_literal: true
+
 require_relative './instance_counter'
 
 class Station
   include InstanceCounter
   attr_reader :name, :trains
 
-  @@all = []
-
   def initialize(name)
     @name = name
     validate!
     @trains = []
-    @@all << self
-    register_instance
+    register_instance(name)
   end
 
-  def each_train
-    trains.each do |train|
-      yield(train)
-    end
-  end
-
-  def self.all
-    @@all
+  def each_train(&block)
+    trains.each(&block)
   end
 
   def valid?
@@ -36,8 +29,6 @@ class Station
       .map(&:info)
       .join "\n"
   end
-
-  # Все методы станции публичный так как я их вызываю в irb.
 
   def recounting_trains
     {

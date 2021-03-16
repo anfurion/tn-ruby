@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './route'
 require_relative './station'
 require_relative './train'
@@ -13,6 +15,7 @@ class Main
     @trains = {}
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def menu
     puts <<-MENU
      1 - Создавать станции
@@ -39,6 +42,7 @@ class Main
     when 8 then list_stations_and_trains
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def create_station
     puts 'Введите имя станции'
@@ -172,11 +176,11 @@ class Main
 
     wagon = case train.type
             when :passenger
-              puts "Введите количество пассажирских мест в вагоне"
+              puts 'Введите количество пассажирских мест в вагоне'
               seats_count = gets.chomp.to_i
               PassengerWagon.new(seats_count)
             when :cargo
-              puts "Введите объем в вагоне"
+              puts 'Введите объем в вагоне'
               capacity = gets.chomp.to_i
               CargoWagon.new(capacity)
 

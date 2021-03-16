@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './instance_counter'
 
 class Route
@@ -31,7 +33,6 @@ class Route
     ].join ', '
   end
 
-  # Все методы маршрута не являются приватными потому что я их вызываю в irb.
   def stations
     [starting_station] +
       intermediate_stations +

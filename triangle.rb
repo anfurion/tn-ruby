@@ -7,4 +7,5 @@ a = gets.to_f
 
 puts 'Ввести высоту треугольника'
 h = gets.to_f
+
 puts triangle_square(a, h)

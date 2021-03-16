@@ -1,0 +1,9 @@
+Metrics/ClassLength:
+  Max: 192
+Metrics/MethodLength:
+  Max: 22
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  Exclude:
+    - 'main.rb'

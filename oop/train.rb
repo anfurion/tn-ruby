@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 require_relative './producer'
 class Train
   NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
   include Producer
   attr_reader :state, :speed, :number
   attr_accessor :wagons, :route, :route_progress
-
-  @@alltrain = {}
 
   def initialize(number)
     @number = number
@@ -14,14 +14,11 @@ class Train
     @state = :stay
     @route_progress = 0
     @wagons = []
-    register_instance
-    @@alltrain[number] = self
+    register_instance(number)
   end
 
-  def each_wagon
-    wagons.each do |wagon|
-      yield(wagon)
-    end
+  def each_wagon(&block)
+    wagons.each(&block)
   end
 
   def valid?
@@ -29,10 +26,6 @@ class Train
     true
   rescue StandardError
     false
-  end
-
-  def self.find(number)
-    @@alltrain[number]
   end
 
   def info
@@ -50,9 +43,6 @@ class Train
     wagons.size
   end
 
-  # Этот медот является публичным,
-  # потому что я как пользователь
-  # хочу иметь возможность задавать маршрут поезду.
   def take_route(route)
     @route_progress = 0
     @route = route
@@ -60,7 +50,6 @@ class Train
     pp 'Поезд принял маршрут'
   end
 
-  # Это публичный метод, потому что это интерфейс поезда.
   def ride(direction)
     if current_station == route.end_station
       pp 'Поезд уже на конечной станции'
@@ -70,7 +59,6 @@ class Train
     end
   end
 
-  # Этот метод я оставил публичный, так как постоянно вызываю его в irb.
   def hook_wagon(wagon)
     case state
     when :stay
@@ -85,11 +73,10 @@ class Train
     end
   end
 
-  # Этот метод я оставил публичный, так как постоянно вызываю его в irb.
   def unhook_wagon
     case state
     when :stay
-      if wagons_count > 0
+      if wagons_count.positive?
         @wagons.pop
         pp "Вагон отцеплен теперь их #{wagons_count}"
       else
@@ -107,39 +94,31 @@ class Train
     raise 'NUMBER FORMAT must be in correct format' if number !~ NUMBER_FORMAT
   end
 
-  # Приватный, так как он не вызывается из клиентского кода,
-  # но вызывается только из публичного метода ride_to_the_next_station
   def arrival_on_current_station
     current_station.take_train(self)
     stop
   end
 
-  # Приватный, так как он не вызывается из клиентского кода,
-  # но вызывается только из публичного метода ride_to_the_next_station
   def leave_current_station(direction)
     current_station.train_left(self)
     go(direction)
   end
 
-  # Приватный, так как он не вызывается из клиентского кода
   def next_station
     route.station(route_progress.next) ||
       :finished
   end
 
-  # Это та станция на которой в данный момент находится поезд
   def current_station
     route.stations[route_progress]
   end
 
-  # Этот метод нужен для остановки поезда, и не может быть вызван из вне.
   def stop
     @speed = 0
     @state = :stay
     pp 'Поезд остановился 10 мин'
   end
 
-  # Этот метод нужен для того, чтобы поезд тронулся, и не может быть вызван из вне.
   def go(direction = :forward)
     @speed = 60
     @state = :rides
