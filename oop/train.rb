@@ -1,19 +1,24 @@
 # frozen_string_literal: true
 
+require_relative './accessors'
 require_relative './producer'
 class Train
   NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
   include Producer
+  extend Accessors
+
   attr_reader :state, :speed, :number
-  attr_accessor :wagons, :route, :route_progress
+  attr_accessor :wagons, :route
+
+  attr_accessor_with_history(:route_progress)
 
   def initialize(number)
     @number = number
     validate!
     @speed = 0
     @state = :stay
-    @route_progress = 0
     @wagons = []
+    self.route_progress = 0
     register_instance(number)
   end
 
