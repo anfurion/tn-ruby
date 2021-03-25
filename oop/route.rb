@@ -1,25 +1,21 @@
 # frozen_string_literal: true
 
+require_relative './accessors'
 require_relative './instance_counter'
 
 class Route
+  extend Accessors
   include InstanceCounter
   attr_accessor :intermediate_stations
-  attr_reader :starting_station, :end_station
+
+  strong_attr_accessor(:starting_station, Station)
+  strong_attr_accessor(:end_station, Station)
 
   def initialize(starting_station, end_station)
-    @starting_station = starting_station
-    @end_station = end_station
-    validate!
+    self.starting_station = starting_station
+    self.end_station = end_station
     @intermediate_stations = []
-    register_instance
-  end
-
-  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
+    register_instance(title)
   end
 
   def title
@@ -45,10 +41,5 @@ class Route
 
   def delete_intermedite_station
     @intermediate_stations.pop
-  end
-
-  def validate!
-    raise "starting_station must be a Station, not #{starting_station.class}" unless starting_station.is_a?(Station)
-    raise "end_station must be a Station, not #{end_station.class}" unless end_station.is_a?(Station)
   end
 end
