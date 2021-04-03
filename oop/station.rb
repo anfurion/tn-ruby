@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative './instance_counter'
 require_relative './accessors'
+require_relative './instance_counter'
 
 class Station
   include InstanceCounter
@@ -9,7 +9,6 @@ class Station
   attr_reader :trains
 
   attr_accessor_with_history :name
-
   def initialize(name)
     self.name = name
     validate!

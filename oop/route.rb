@@ -2,14 +2,18 @@
 
 require_relative './accessors'
 require_relative './instance_counter'
+require_relative './validation'
 
 class Route
   extend Accessors
   include InstanceCounter
+  include Validation
   attr_accessor :intermediate_stations
 
   strong_attr_accessor(:starting_station, Station)
   strong_attr_accessor(:end_station, Station)
+
+  validate :starting_station, :presence
 
   def initialize(starting_station, end_station)
     self.starting_station = starting_station

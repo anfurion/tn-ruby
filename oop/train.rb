@@ -2,13 +2,17 @@
 
 require_relative './accessors'
 require_relative './producer'
+require_relative './validation'
 class Train
   NUMBER_FORMAT = /^\w{3}-?(\w\w)?$/.freeze
+  include Validation
   include Producer
   extend Accessors
 
   attr_reader :state, :speed, :number
   attr_accessor :wagons, :route
+
+  validate :number, :format, NUMBER_FORMAT
 
   attr_accessor_with_history(:route_progress)
 
@@ -24,13 +28,6 @@ class Train
 
   def each_wagon(&block)
     wagons.each(&block)
-  end
-
-  def valid?
-    validate!
-    true
-  rescue StandardError
-    false
   end
 
   def info
@@ -93,11 +90,6 @@ class Train
   end
 
   private
-
-  def validate!
-    raise "number must be a String, not #{number.class}" unless number.is_a?(String)
-    raise 'NUMBER FORMAT must be in correct format' if number !~ NUMBER_FORMAT
-  end
 
   def arrival_on_current_station
     current_station.take_train(self)
